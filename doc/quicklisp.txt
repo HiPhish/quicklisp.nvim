@@ -1,0 +1,114 @@
+*quicklisp.txt*    Quicklisp client for Neovim
+
+                                                              *quicklisp.nvim*
+                     ____       _     __    ___~
+                    / __ \__ __(_)___/ /__ / (_)__ ___~
+                   / /_/ / // / / __/  '_// / (_-</ _ \~
+                   \___\_\_,_/_/\__/_/\_\/_/_/___/ .__/~
+                                                /_/~
+
+Version: 0.0.0
+Author: Alejandro "HiPhish" Sanchez
+License: MIT License
+
+==============================================================================
+TABLE OF CONTENTS                                         *quicklisp-contents*
+
+    1. Introduction ................................. |quicklisp-introduction|
+    2. Installation ................................. |quicklisp-installation|
+    3. Functions .................................... |quicklisp-functions|
+    4. Commands ..................................... |quicklisp-commands|
+
+
+==============================================================================
+INTRODUCTION                                          *quicklisp-introduction*
+
+Quicklisp.nvim is a Neovim wrapper for the Common Lisp package manager
+Quicklisp. It aims to make the functionality of Quicklisp available for
+interactive use without needing a Common Lisp REPL running, and for scripting
+in Vimscript.
+
+It is a remote plugin, which means that most of the code of Quicklisp.nvim is
+written in Common Lisp itself, not Vimscript. This makes it possible to use
+Quicklisp directly as a Common Lisp library.
+
+
+==============================================================================
+INSTALLATION                                          *quicklisp-installation*
+
+Quicklisp.nvim is installed like any other remote plugin: install it like any
+Vim plugin, then execute |:UpdateRemotePlugins|.
+
+There are two dependencies though:
+
+  * Quicklisp (https://www.quicklisp.org/)
+  * A Common Lisp API client (e.g. https://github.com/adolenc/cl-neovim/)
+
+Please see the instructions for Quicklisp and the API client on how to install
+them. Make sure that Quicklisp is available to the Common Lisp implementation
+used by your API client. Please make sure that Quicklisp works from the REPL
+and that the API client works first before submitting a bug report or trying
+to troubleshoot Quicklisp.nvim.
+
+
+==============================================================================
+QUICKLISP FUNCTIONS                                      *quicklisp-functions*
+
+------------------------------------------------------------------------------
+QuicklispWhoDependsOn({system})                      *QuicklispWhoDependsOn()*
+
+Return a list of names of systems depending on {system} (which is also a
+system name).
+
+------------------------------------------------------------------------------
+QuicklispSystemApropos({pattern})                   *QuicklispSystemApropos()*
+
+Return a list of string representation of systems whose name matches
+{pattern}.
+
+
+==============================================================================
+QUICKLISP COMMANDS                                        *quicklisp-commands*
+
+
+:Quicklisp {sub-command} [arguments]                             *:Quicklisp*
+
+Execute the {sub-command} of Quicklisp, possibly with arguments. There is only
+this one command and it serves mostly as a wrapper around the Quicklisp
+functions.
+
+------------------------------------------------------------------------------
+:Quicklisp quickload {system} [...]
+
+Load one or more {system}s into the Common Lisp process running the API
+client. If the system has not been installed it will first be downloaded and
+installed before being loaded.
+
+------------------------------------------------------------------------------
+:Quicklisp uninstall {system} [...]
+
+Uninstall one or more {system}s.
+
+------------------------------------------------------------------------------
+:Quicklisp system-apropos {pattern}
+
+List all systems whose name matches {pattern}.
+
+------------------------------------------------------------------------------
+:Quicklisp who-depends-on {system}
+
+List all systems which have {system} as their dependency.
+
+------------------------------------------------------------------------------
+:Quicklisp update-dist {distro}
+
+Update definitions from distribution {distro}.
+
+------------------------------------------------------------------------------
+:Quicklisp update-client
+
+Update the Quicklisp client itself.
+
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
