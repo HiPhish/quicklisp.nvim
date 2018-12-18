@@ -1,4 +1,4 @@
-.. default-role: code
+.. default-role:: code
 
 ######################
  Quicklisp for Neovim
@@ -33,7 +33,7 @@ parts: Vimscript functions which give you data from Quicklisp for further
 processing in your own scripts, and Vim commands to be executed manually. Here
 is an example:
 
-.. code-block: vim
+.. code-block:: vim
 
    " Get a list of all packages containing "vim" in their name
    let vim_packages = QuicklispSystemApropos('vim')
