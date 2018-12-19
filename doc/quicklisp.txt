@@ -1,5 +1,4 @@
 *quicklisp.txt*    Quicklisp client for Neovim
-
                                                               *quicklisp.nvim*
                      ____       _     __    ___~
                     / __ \__ __(_)___/ /__ / (_)__ ___~
@@ -49,6 +48,9 @@ them. Make sure that Quicklisp is available to the Common Lisp implementation
 used by your API client. Please make sure that Quicklisp works from the REPL
 and that the API client works first before submitting a bug report or trying
 to troubleshoot Quicklisp.nvim.
+
+You can run the |health| check for `quicklisp` to verify that all dependencies
+are installed properly.
 
 
 ==============================================================================

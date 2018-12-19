@@ -17,12 +17,11 @@ Installation
 
 Install Quicklisp.nvim like any other Neovim plugin and execute afterwards
 `:UpdateRemotePlugins`. Since this is a remote plugin you will also need to
-install the `Common Lisp API client`, and you will need to have Quicklisp set
+install the `Common Lisp API client`_, and you will need to have Quicklisp set
 up for the API client's Common Lisp implementation. Please refer to the
 included documentation of Quicklisp.nvim.
 
 .. _Common Lisp API client: https://github.com/adolenc/cl-neovim/
-.. _SBCL: http://sbcl.org/
 
 
 Usage
