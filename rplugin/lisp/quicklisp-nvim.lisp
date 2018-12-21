@@ -43,6 +43,18 @@
   (nvim:out-write "
 "))
 
+(defmacro string-case (string &body clauses)
+  "Compare a given STRING to a series of strings, return the result of
+   evaluating the body of the first matching case."
+  `(cond
+     ,@(loop :for (case . body) in clauses
+             :collect
+             `(,(if (listp case)
+                  `(or ,@(loop :for literal in case
+                               :collect `(string= ,string ,literal)))
+                  case)
+                ,@body))))
+
 
 ;;; ---[ NEOVIM FUNCTIONS ]----------------------------------------------------
 (nvim:defun/s "QuicklispWhoDependsOn" (system-name)
@@ -110,30 +122,24 @@
            (type list arg*)
            (opts (complete "custom,__quicklisp_cmd_completion")))
   "The main Quicklisp command for Neovim; dispatches dynamically on SUB-COMMAND"
-  (cond
-    ((string= sub-command "quickload")
-     (quickload arg*))
-    ((string= sub-command "uninstall")
-     (dolist (system arg*)
-       (declare (type string system))
-       (ql:uninstall system)))
-    ((string= sub-command "system-apropos")
-     (if (= (length arg*) 1)
-       (system-apropos (elt arg* 0))
-       (out-writeln "Wrong number of arguments: requires a pattern")))
-    ((string= sub-command "who-depends-on")
-     (if (= (length arg*) 1)
-       (who-depends-on (elt arg* 0))
-       (out-writeln "Wrong number of arguments: requires a package name")))
-    ((string= sub-command "update-dist")
-     (if (= (length arg*) 1)
-       (update-dist (elt arg* 0))
-       (out-writeln "Wrong number of arguments: requires a distro name")))
-    ((string= sub-command "update-client")
-     (if arg*
-       (out-writeln "Wrong number of arguments: takes no arguments")
-       (update-client)))
+  (string-case sub-command
+    (("quickload") (quickload arg*))
+    (("uninstall") (dolist (system arg*)
+                     (declare (type string system))
+                     (ql:uninstall system)))
+    (("system-apropos") (if (= (length arg*) 1)
+                          (system-apropos (elt arg* 0))
+                          (out-writeln "Wrong number of arguments: requires a pattern")))
+    (("who-depends-on") (if (= (length arg*) 1)
+                          (who-depends-on (elt arg* 0))
+                          (out-writeln "Wrong number of arguments: requires a package name")))
+    (("update-dist") (if (= (length arg*) 1)
+                       (update-dist (elt arg* 0))
+                       (out-writeln "Wrong number of arguments: requires a distro name")))
+    (("update-client") (if arg*
+                         (out-writeln "Wrong number of arguments: takes no arguments")
+                         (update-client)))
     (t (nvim:out-write
          (format nil
-                 "Unknown Quicklisp command, use one of ~{~&    ~A~}~&"
+                 "Unknown Quicklisp command, use one of the following:~{~&    ~A~}~&"
                  '("quickload" "uninstall" "system-apropos" "who-depends-on" "update-dist" "update-client"))))))
