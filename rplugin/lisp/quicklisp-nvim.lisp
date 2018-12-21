@@ -32,10 +32,6 @@
 
 
 ;;; ---------------------------------------------------------------------------
-(defun display-nvim-error (message)
-  "Display an error message in Neovim, but do not throw an actual error"
-  (nvim:err-writeln message))
-
 (defun out-writeln (message)
   "Display a MESSAGE in Neovim. Unlike `nvim:out-write` the message will be
    terminated with a line feed."
