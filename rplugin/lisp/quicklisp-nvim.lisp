@@ -54,6 +54,7 @@
             | T"
   (let ((stringvar (gensym)))
     `(let ((,stringvar ,string))
+       (declare (type string ,stringvar))
        (cond
          ,@(loop :for (case . body) in clauses
                  :collect
@@ -80,16 +81,16 @@
 
 
 ;;; ---[ NEOVIM COMMANDS ]-----------------------------------------------------
-(defun quickload (systems)
-  (declare (type list systems))
-  "Quick-loads systems from the list SYSTEMS."
-  (dolist (system systems)
-    (declare (type string system))
+(defun quickload (system-names)
+  (declare (type list system-names))
+  "Quick-loads systems from the list SYSTEM-NAMES."
+  (dolist (system-name system-names)
+    (declare (type string system-name))
     (nvim:out-write
       (format nil "~A~&"
               (with-output-to-string (*standard-output*)
                 (with-output-to-string (*error-output*)
-                  (ql:quickload system)))))))
+                  (ql:quickload system-name)))))))
 
 (defun system-apropos (pattern)
   (declare (type string pattern))
@@ -102,14 +103,14 @@
               (mapcar (lambda (system) (format nil "~A" system))
                       systems)))))
 
-(defun who-depends-on (system)
+(defun who-depends-on (system-name)
   "Display a message in Neovim listing all packages dependent on SYSTEM"
-  (declare (type string system))
-  (let ((systems (ql:who-depends-on system)))
+  (declare (type string system-name))
+  (let ((systems (ql:who-depends-on system-name)))
     (nvim:out-write
       (format nil
-              "The following packages depend on '~A':~%~{   ~A~%~}~&"
-              system
+              "The following systems depend on '~A':~%~{   ~A~%~}~&"
+              system-name
               systems))))
 
 (defun update-dist (distro)
