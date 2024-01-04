@@ -24,11 +24,11 @@
 
 " Uncomment this function once lispeval lands in cl-neovim master
 " function! health#quicklisp#check()
-" 	call health#report_start('Looking for Quicklisp')
+" 	call v:lua.vim.health.start('Looking for Quicklisp')
 " 	if Lispeval('(if (find-package ''ql) T nil)')
-" 		call health#report_ok('Quicklisp installed')
+" 		call v:lua.vim.health.ok('Quicklisp installed')
 " 	else
-" 		call health#report_error('Cannot find Quicklisp package')
+" 		call v:lua.vim.health.error('Cannot find Quicklisp package')
 " 	endif
 " 	return v:true
 " endfunction
